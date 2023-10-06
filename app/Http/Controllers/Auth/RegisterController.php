@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;  
 
 class RegisterController extends Controller
 {
@@ -71,8 +72,18 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'address'=> $data['address'],
-            
             'password' => Hash::make($data['password']),
+            'role' => 1, // Default role for businesses
         ]);
     }
+
+    /**
+     * Override the redirectTo method from RegistersUsers trait 
+     * to provide dynamic redirection based on user role.
+     */
+    protected function redirectTo()
+{
+    return '/business/dashboard';
+}
+
 }

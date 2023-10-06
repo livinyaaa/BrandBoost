@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -37,4 +38,22 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * Override the redirectTo method from AuthenticatesUsers trait 
+     * to provide dynamic redirection based on user role.
+     */
+    protected function redirectTo()
+    {
+        // Redirect based on user role
+        switch (Auth::user()->role) {
+            case 0:
+                return '/admin/dashboard';
+            case 1:
+                return '/business/dashboard';
+            default:
+                return '/home';  // Default redirection
+        }
+    }
 }
+

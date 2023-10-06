@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/welcome.css'])
+    
 </head>
 <body style="background-color: #08194a">
     <div id="app">

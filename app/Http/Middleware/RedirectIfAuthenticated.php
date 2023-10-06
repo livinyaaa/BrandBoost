@@ -13,18 +13,33 @@ class RedirectIfAuthenticated
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string ...$guards
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
-    {
-        $guards = empty($guards) ? [null] : $guards;
+{
+    $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+    foreach ($guards as $guard) {
+        if (Auth::guard($guard)->check()) {
+            $user = Auth::user();
+            
+            // Check user role and redirect appropriately.
+            if($user->role == 0) {
+                return redirect('/admin/dashboard');  // Updated
+            } else if($user->role == 1) {
+                return redirect('/business/dashboard');  // Updated
             }
-        }
 
-        return $next($request);
+            // Default redirection if the user role doesn't match any criteria.
+            return redirect(RouteServiceProvider::HOME);
+        }
     }
+
+    return $next($request);
 }
+
+}
+
