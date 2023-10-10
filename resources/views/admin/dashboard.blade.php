@@ -33,12 +33,12 @@
                                 <td>{{ $user->phone }}</td>
                                 <td>{{ $user->address }}</td>
                                 <td>
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm" style="background-color: #02449a;color:#fff;">Edit</a>
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST"
                                         style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"
+                                        <button type="submit" class="btn btn-sm" style="background-color: #880319; color: #fff"
                                             onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                                     </form>
                                 </td>
